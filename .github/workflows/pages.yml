@@ -17,8 +17,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          npm install
           npm install -g node-gyp@latest
+          npm install
 
       - name: Build
         run: npm run build
