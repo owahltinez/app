@@ -29,7 +29,10 @@ GulpClient.task("build:md", function () {
 GulpClient.task("build:assets", function () {
   const exclude = ["!**/*.{js,ts,md}"];
   const include = SRCS.map((src) => src + "/**/*");
-  const pipein = GulpClient.src([...include, ...exclude], { base: "." });
+  const pipein = GulpClient.src([...include, ...exclude], {
+    base: ".",
+    encoding: false,
+  });
   return pipein.pipe(GulpClient.dest("dist"));
 });
 

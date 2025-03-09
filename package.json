@@ -8,7 +8,8 @@
     "gulp": "npx gulp",
     "build": "npx gulp build",
     "start:web": "npx http-server -p 0 ./dist/web",
-    "start:srv": "npx wrangler dev srv/dist/index.js"
+    "start:srv": "npx wrangler dev srv/dist/index.js",
+    "deploy:web": "npx firebase-tools deploy --only hosting"
   },
   "repository": {
     "type": "git",

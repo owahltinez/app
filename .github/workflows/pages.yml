@@ -13,8 +13,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
-      
+          node-version: "14"
+
       - name: Install Dependencies
         run: npm install
 
@@ -42,3 +42,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Deploy to Firebase
+        run: |
+          npm run deploy:web -- --token ${{ secrets.FIREBASE_TOKEN }}
