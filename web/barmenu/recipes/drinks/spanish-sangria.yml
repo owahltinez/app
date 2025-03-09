@@ -1,0 +1,17 @@
+name: Spanish Sangria
+description: traditional Spanish recipe
+container: wine glass
+ingredients:
+  red wine: 1.5 l
+  orange slices: 4 oranges
+  lemon slices: 2 lemons
+  club soda: 1 l
+instructions:
+  - Slice oranges and lemons and add to pitcher
+  - Add wine to pitcher until all fruit is fully submerged
+  - Cover pitcher and store in fridge for 2-4 hours
+  - Pour into wine glass until ¾ full, fill with club soda
+  - (O) Add sherry wine to glass for a more boozy variation
+tags:
+  - exotic
+  - traditional

@@ -1,0 +1,19 @@
+name: Moscow Mule
+description: crisp and cold with a gingery kick
+container: copper mug
+ingredients:
+  vodka: 60 ml
+  lime juice: 30 ml
+  simple syrup: 30 ml
+  ginger beer: 180 ml
+  angostura bitters: 2 dashes
+instructions:
+  - Mix liquor, lime juice and simple syrup with ice in shaker
+  - Strain over ice in copper mug
+  - Pour ginger beer in copper mug
+  - Add two dashes of bitters to mix
+  - (O) Add slice of lime for a citrus twist
+tags:
+  - classic
+  - sour
+  - refreshing

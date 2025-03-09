@@ -1,0 +1,16 @@
+name: Frozen Mojito
+description: frosty and minty, make it dirty if you're feeling naughty
+container: highball glass
+ingredients:
+  clear rum: 60 ml
+  lime juice: 30 ml
+  simple syrup: 30 ml
+  fresh mint: 8 leaves
+instructions:
+  - Blend 6 ice cubes and all ingredients until smooth
+  - (O) Add frozen fruit or syrup for flavoured variations
+  - Serve in highball glass with straw
+tags:
+  - classic
+  - frozen
+  - refreshing

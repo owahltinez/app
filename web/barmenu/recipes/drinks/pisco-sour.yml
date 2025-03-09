@@ -1,0 +1,18 @@
+name: Pisco Sour
+description: national drink of Peru
+container: standard glass
+ingredients:
+  pisco: 60 ml
+  lemon juice: 45 ml
+  simple syrup: 30 ml
+  angostura bitters: 2 dashes
+instructions:
+  - Add all ingredients and 3 ice cubes to blender
+  - (O) Add one egg white for extra foam
+  - Blend mix until slightly foamy
+  - Strain into standard glass
+  - Add two dashes of bitters to mix
+tags:
+  - exotic
+  - sour
+  - refreshing

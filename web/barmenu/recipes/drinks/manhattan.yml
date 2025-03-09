@@ -1,0 +1,17 @@
+name: Manhattan
+description: invented in NYC circa 1880, only for the brave
+container: martini glass
+ingredients:
+  rye whiskey: 60 ml
+  dry vermouth: 30 ml
+  angostura bitters: 2 dashes
+  orange peel: 1 strip
+  maraschino cherry: 1 cherry
+instructions:
+  - Combine whiskey, vermouth and bitters with ice in shaker
+  - Stir gently until mixed and well chilled
+  - Strain mix over ice in martini glass
+  - Twist orange peel over drink and add to glass
+  - Add maraschino cherry to glass
+tags:
+  - classic

@@ -1,0 +1,17 @@
+name: Old Fashioned
+description: the gentleman's choice for a smokey evening
+container: whiskey glass
+ingredients:
+  whiskey: 60 ml
+  simple syrup: 15 ml
+  angostura bitters: 4 dashes
+instructions:
+  - Add all ingredients with ice in shaker
+  - (O) Substitute simple syrup with maple syrup for flavoured variation
+  - Stir gently until well mixed and chilled
+  - Strain mix over ice in whiskey glass
+  - (O) Use sphere or oversized ice cube
+  - (O) Add orange slice or peel for a citrus twist
+tags:
+  - classic
+  - smokey

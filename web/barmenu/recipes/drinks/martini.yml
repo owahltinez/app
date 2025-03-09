@@ -1,0 +1,16 @@
+name: Martini
+description: Mr Bond was right, stirred and not shaken
+container: martini glass
+ingredients:
+  gin: 60 ml
+  dry vermouth: 30 ml
+  olives: 1 olive
+  lemon peel: 1 strip
+instructions:
+  - Combine gin and vermouth with ice in shaker
+  - Stir gently until well chilled
+  - Strain mix over ice in glass
+  - Twist lemon peel over drink and add to glass
+  - Add olives to glass
+tags:
+  - classic

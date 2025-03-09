@@ -1,0 +1,14 @@
+name: Gin & Tonic
+description: gin and tonic, the Aussie way with orange slice
+container: highball glass
+ingredients:
+  gin: 60 ml
+  tonic water: 60 ml
+  orange slices: 1 slice
+instructions:
+  - Add ice and orange slice to highball glass
+  - Pour gin into glass
+  - Pour tonic into glass
+tags:
+  - twist
+  - sour

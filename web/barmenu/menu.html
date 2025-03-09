@@ -1,0 +1,83 @@
+<html lang="en">
+
+<head>
+  <title>{{ menu }}</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//unpkg.com/js-yaml@4.1.0" defer></script>
+  <script src="//unpkg.com/showdown@2.1.0/dist/showdown.min.js" defer></script>
+  <script src="//unpkg.com/mancha@0.11.0" css="utils" init></script>
+  <!-- <script src="//fresho-dev.github.io/mancha/dist/mancha.js" css="utils" init debug></script> -->
+</head>
+
+<body :data="{ items: [], recipes: false }"
+  class="bg-blue-gray-50 font-serif p-4 flex flex-col justify-center items-center">
+
+  <include src="./header.tpl.html"></include>
+
+  <main class="sm:mt-8 max-w-1024px transition opacity-0" style="transition-duration: 750ms">
+
+    <div class="flex flex-wrap justify-center -mt-4">
+      <div :for="item in items" class="w-full sm:w-50% flex-grow">
+        <div class="w-full h-2px bg-blue-gray-100 my-4"></div>
+
+        <div class="text-center">
+          <h3 class="font-cursive m-0 mb-2">{{ item.name }}</h3>
+          <small class="block" :html="converter.makeHtml(item.description)"></small>
+        </div>
+
+        <div :show="$parent.recipes" class="flex flex-col items-center">
+          <details class="pt-2 items-center">
+            <summary class="text-center cursor-pointer hover:underline transition">Ingredients</summary>
+            <div class="flex flex-col pt-2">
+              <span class="text-justify flex-1" :for="entry in Object.entries(item.ingredients)">
+                <small>{{ entry[0] }}: {{ entry[1] }}</small>
+              </span>
+              </ul>
+          </details>
+
+          <details class="pt-2">
+            <summary class="text-center cursor-pointer hover:underline transition">Instructions</summary>
+            <div class="flex flex-col pt-2">
+              <span class="text-justify" :for="step in item.instructions">
+                <small>{{ step }}</small>
+                </li>
+              </span>
+          </details>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <div :show="false" class="absolute top-0 left-0 right-0 bottom-0 bg-blue-gray-50"></div>
+</body>
+
+
+<script type="module" defer>
+  const params = new URL(window.location.href).searchParams;
+  const menuName = params.get('menu');
+  window.document.title = `${menuName[0].toUpperCase() + menuName.slice(1)} Menu`;
+
+  const fetchYaml = async (url) => {
+    const res = await fetch(url);
+    const text = await res.text();
+    return jsyaml.load(text);
+  }
+
+  const { $ } = Mancha;
+  $.converter = new showdown.Converter();
+  const index = await fetchYaml(`recipes/${menuName}/_index.yml`);
+  $.items = await Promise.all(index.map(x => fetchYaml(`recipes/${menuName}/${x}.yml`)));
+  // $.toggleRecipes = () => $.recipes = !$.recipes;
+  $.toggleRecipes = () => {
+    $.recipes = !$.recipes;
+    $.notify('recipes');
+    console.log('recipes', $.recipes);
+  }
+
+  document.querySelector('main').classList.remove('opacity-0');
+</script>
+
+
+</html>

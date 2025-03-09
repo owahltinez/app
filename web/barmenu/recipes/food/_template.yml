@@ -1,0 +1,14 @@
+name: dish name
+description: blend of red and blue with a hint of yellow
+container: plate
+ingredients:
+  red: 30 g
+  blue: 30 g
+  yellow: 15 g
+instructions:
+  - Stir red and blue with ice in shaker
+  - Pour over ice in glass
+  - Pour yellow in glass
+tags:
+  - italian
+  - pasta

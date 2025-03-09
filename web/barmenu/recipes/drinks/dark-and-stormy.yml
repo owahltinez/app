@@ -1,0 +1,15 @@
+name: Dark and Stormy
+description: rum and ginger highball with a lime twist
+container: highball glass
+ingredients:
+  dark rum: 60 ml
+  ginger bear: 90 ml
+  lime juice: 30 ml
+instructions:
+  - Mix rum and lime juice with ice in shaker
+  - Strain over ice in highball glass
+  - Pour ginger beer in highball glass
+  - (O) Add slice of lime for a citrus twist
+tags:
+  - classic
+  - smokey

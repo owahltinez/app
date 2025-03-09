@@ -1,0 +1,27 @@
+{
+  "name": "w1k",
+  "version": "1.0.0",
+  "description": "",
+  "main": "srv/dist/index.js",
+  "type": "module",
+  "scripts": {
+    "gulp": "npx gulp",
+    "build": "npx gulp build",
+    "start:web": "npx http-server -p 0 ./dist/web",
+    "start:srv": "npx wrangler dev srv/dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/owahltinez/w1k.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^5.0.0",
+    "gulp-markdown": "^8.0.0",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "fuse.js": "^7.1.0"
+  }
+}

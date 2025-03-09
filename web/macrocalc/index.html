@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MacroCalc</title>
+  <script src="//unpkg.com/mancha@0.12.15" css="utils"></script>
+  <!-- <script src="//fresho-dev.github.io/mancha/mancha.js" css="utils"></script> -->
+  <script src="//www.gstatic.com/charts/loader.js"></script>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body class="bg-gray-100 text-gray-900 font-sans">
+  <div class="mx-auto p-4 max-w-full lg:max-w-768px overflow-x-hidden">
+    <div class="flex flex-col items-center">
+      <h1 class="text-2xl font-bold mb-2">MacroCalc</h1>
+      <h2 class="text-4xl font-bold mb-4" :show="recipeName">{{ recipeName }}</h2>
+    </div>
+
+    <div class="mt-4 overflow-x-auto" :show="ingredients.length">
+      <table class="w-full text-xs sm:text-sm border-collapse border-solid border-0">
+        <thead>
+          <tr class="border-0 border-b border-solid border-gray-300">
+            <th class="px-2 py-2 min-w-32">
+              <span class="sm:hidden"></span>
+              <span class="hidden sm:block">Ingredient</span>
+            </th>
+            <th class="px-2 py-2">
+              <span class="sm:hidden">Amt</span>
+              <span class="hidden sm:block">Amount</span>
+            </th>
+            <th class="px-2 py-2">
+              <span class="sm:hidden">kcal</span>
+              <span class="hidden sm:block">Energy</span>
+            </th>
+            <th class="px-2 py-2">
+              <span class="sm:hidden">P</span>
+              <span class="hidden sm:block">Protein</span>
+            </th>
+            <th class="px-2 py-2">
+              <span class="sm:hidden">C</span>
+              <span class="hidden sm:block">Carbs</span>
+            </th>
+            <th class="px-2 py-2">
+              <span class="sm:hidden">F</span>
+              <span class="hidden sm:block">Fat</span>
+            </th>
+            <th class="px-2 py-2"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :for="ingredient in ingredients" :key="ingredient.name"
+            class="border-0 border-b border-solid border-gray-300">
+            <td class="px-2 py-2 text-center">
+              <a class="no-underline hover:underline text-black" target="_blank" :attr:href="ingredient.url">
+                {{ ingredient.title }}
+              </a>
+            </td>
+            <td class="px-2 py-2 text-center hover:underline cursor-pointer"
+              :on:click="editIngredientAmout(ingredient)">
+              {{ ingredient.grams.toFixed(1) }}g
+            </td>
+            <td class="px-2 py-2 text-center">
+              {{ ratioed(ingredient, ingredient.nutrients.kcal).toFixed(1) }}kcal
+            </td>
+            <td class="px-2 py-2 text-center">
+              {{ ratioed(ingredient, ingredient.nutrients.protein).toFixed(1) }}g
+            </td>
+            <td class="px-2 py-2 text-center">
+              {{ ratioed(ingredient, ingredient.nutrients.carbs).toFixed(1) }}g
+            </td>
+            <td class="px-2 py-2 text-center">
+              {{ ratioed(ingredient, ingredient.nutrients.fat).toFixed(1) }}g
+            </td>
+            <td class="px-2 py-2 text-center">
+              <button :on:click="delIngredient(ingredient)"
+                class="h-4 w-4 p-0 border-none cursor-pointer bg-red-500 text-white text-xs rounded inline-block mx-auto">&#x2715;</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="">
+            <th class="pt-8 text-center uppercase">Total</th>
+            <th class="pt-8 text-center">{{ totalGrams(ingredients).toFixed(1) }}g</th>
+            <th class="pt-8 text-center">{{ (totalKcal(ingredients)).toFixed(1) }}kcal</th>
+            <th class="pt-8 text-center">{{ totalProtein(ingredients).toFixed(1) }}g</th>
+            <th class="pt-8 text-center">{{ totalCarbs(ingredients).toFixed(1) }}g</th>
+            <th class="pt-8 text-center">{{ totalFat(ingredients).toFixed(1) }}g</th>
+            <th class="pt-8 text-center">
+              <button :on:click="clearRecipe(ingredients)"
+                class="h-4 w-4 p-0 border-none cursor-pointer bg-red-500 text-white text-xs rounded inline-block mx-auto">&#x2715;</button>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <details :show="ingredients.length" class="flex flex-col mt-4 justify-center items-center">
+      <summary class="text-center cursor-pointer">Share Recipe</summary>
+      <div class="flex flex-col gap-2 max-w-128 w-full">
+        <div class="flex flex-col">
+          <span>&#8203;</span>
+          <div :on:click="printElement(document.querySelector('#nutritional-info'))"
+            class="flex flex-row items-center gap-2 cursor-pointer transition text-gray-700 bg-gray-200 hover:bg-gray-300 border border-solid border-gray-700 rounded p-2">
+            <i class="bi bi-printer text-2xl"></i>
+            <span class="text-xl">Print Nutritional Label</span>
+          </div>
+        </div>
+        <label class="flex flex-col">
+          <span>Recipe Name</span>
+          <input :bind="recipeName" type="text"
+            class="h-6 px-2 py-1 rounded border border-solid border-gray-200 focus:border-gray-700" />
+        </label>
+        <label class="flex flex-col flex-grow">
+          <span>Share Link</span>
+          <input readonly type="text" :prop:value="recipeLink(recipeName, ingredients)"
+            class="h-6 px-2 py-1 rounded border border-solid border-gray-200 focus:border-gray-700"
+            :on:click="$elem.setSelectionRange(0, $elem.value.length)" />
+        </label>
+      </div>
+    </details>
+
+    <hr class="my-4 border-solid border-b-2 border-gray-300" />
+
+    <div :show="ingredients.length" class="w-full sm:w-auto my-auto mt-4">
+      <div class="flex flex-row flex-wrap items-start justify-center">
+
+        <!-- Chart -->
+        <div id="macro-chart" class="flex w-256px h-256px -mt-4 mx-auto justify-center"></div>
+
+        <!-- Table -->
+        <div id="nutritional-info" class="font-sans w-320px p-2 border-solid border-2 border-gray-900">
+          <!-- Recipe Title -->
+          <h2 :show="recipeName" class="text-xl text-center my-0">{{ recipeName }}</h2>
+
+          <!-- Nutrition Facts -->
+          <table class="w-full text-xs sm:text-sm border-collapse border-solid border-0">
+            <thead>
+              <tr class="border-0 border-b-2 border-solid border-gray-900">
+                <th class="px-2 py-2">
+                  <span class="text-xl">Nutrition Facts</span>
+                </th>
+                <th class="px-2 py-2">
+                  <span class="">Total</span>
+                </th>
+                <th class="px-2 py-2">
+                  <span class="">Per 100g</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-0 border-b border-solid border-gray-300">
+                <th class="pl-8 py-2 text-left text-bold">
+                  Energy
+                </th>
+                <td class="px-2 py-2 text-center">
+                  {{ totalKcal(ingredients).toFixed(1) }}kcal
+                </td>
+                <td class="px-2 py-2 text-center">
+                  {{ (totalKcal(ingredients) / totalGrams(ingredients) * 100).toFixed(1) }}kcal
+                </td>
+              </tr>
+              <tr class="border-0 border-b border-solid border-gray-300">
+                <th class="pl-8 py-2 text-left text-bold">
+                  Protein
+                </th>
+                <td class="px-2 py-2 text-center">
+                  {{ totalProtein(ingredients).toFixed(1) }}g
+                </td>
+                <td class="px-2 py-2 text-center">
+                  {{ (totalProtein(ingredients) / totalGrams(ingredients) * 100).toFixed(1) }}g
+                </td>
+              </tr>
+              <tr class="border-0 border-b border-solid border-gray-300">
+                <th class="pl-8 py-2 text-left text-bold">
+                  Carbs
+                </th>
+                <td class="px-2 py-2 text-center">
+                  {{ totalCarbs(ingredients).toFixed(1) }}g
+                </td>
+                <td class="px-2 py-2 text-center">
+                  {{ (totalCarbs(ingredients) / totalGrams(ingredients) * 100).toFixed(1) }}g
+                </td>
+              </tr>
+              <tr class="border-0 border-b border-solid border-gray-300">
+                <th class="pl-8 py-2 text-left text-bold">
+                  Fat
+                </th>
+                <td class="px-2 py-2 text-center">
+                  {{ totalFat(ingredients).toFixed(1) }}g
+                </td>
+                <td class="px-2 py-2 text-center">
+                  {{ (totalFat(ingredients) / totalGrams(ingredients) * 100).toFixed(1) }}g
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="flex flex-row gap-2">
+
+            <!-- Ingredients -->
+            <p class="flex-grow text-xs text-justify mt-2">
+              <span class="font-bold">Ingredients: </span>
+              <span :text="sortedIngredients(ingredients)"></span>
+            </p>
+
+            <!-- QR Code-->
+            <div class="pl-2 pt-2">
+              <img class="w-12 h-12" alt="QR Code" :attr:src="recipeQRCode(recipeName, ingredients)" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div :show="" class="flex flex-wrap justify-center mt-4 h-8">
+      <div :show="error" class="text-red-500">
+        <i class="bi bi-exclamation-lg h-4 w-4"></i>
+        <span>{{ error }}</span>
+      </div>
+      <div :show="status">
+        <div class="animate-spin inline-block"><i class="bi bi-arrow-clockwise h-4 w-4"></i></div>
+        <span>{{ status }}</span>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap justify-center mt-4 gap-2">
+
+      <div class="sm:w-auto my-auto">
+        <label class="flex flex-col">
+          <span>Grams</span>
+          <input :prop:disabled="disabled" id="grams" type="number" :bind="gramsAdded" :on:input="searchIngredients()"
+            class="h-6 block px-2 py-1 rounded border border-solid border-gray-200 focus:border-gray-700" />
+        </label>
+      </div>
+
+      <div class="sm:w-auto my-auto">
+        <label class="flex flex-col">
+          <span>Ingredient</span>
+          <input :prop:disabled="disabled" id="ingredient" type="text" :bind="ingredientName"
+            class="h-6 block px-2 py-1 rounded border border-solid border-gray-200 focus:border-gray-700"
+            :on:keyup="searchIngredients()" />
+        </label>
+      </div>
+
+    </div>
+
+    <div class="w-full sm:w-auto my-auto mt-4 space-y-2" :show="ingredientChoices.length">
+      <div :for="product in ingredientChoices" class="cursor-pointer" :on:click="selectIngredientResult(product)"
+        class="flex items-center justify-start inline-block w-32">
+        <div
+          class="flex flex-row p-1 text-sm text-blue-700 border border-solid border-blue-700 rounded hover:bg-blue-50 transition">
+          <span class="flex-grow">{{ product.title }}</span>
+          <span class="font-mono text-nowrap px-1">{{ foodMacroString(product) }}</span>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script type="module" async>
+    // import { USDA } from "./usda.js";
+    // import { Local } from "./local.js";
+    // const db = { usda: new USDA(), local: new Local() };
+    import { db } from "./main.js";
+
+    const { $ } = Mancha;
+    window.$ = $;
+    $.db = db;
+
+    // Asynchronously load Google Charts.
+    await google.charts.load('current', { 'packages': ['corechart'] });
+
+    $.error = null;
+    $.status = null;
+    $.disabled = false;
+    $.ingredients = [];
+    $.gramsAdded = 100;
+    $.ingredientName = null;
+    $.ingredientChoices = [];
+    $.ingredientLookupTimer = null;
+    $.recipeName = '';
+
+    $.foodMacroString = function (food) {
+      const n = food.nutrients;
+      const grams = this.gramsAdded || 100;
+      const r = (x) => Math.round($.ratioed({ grams, ...food }, x));
+      return `${r(n.kcal)}kcal ${r(n.protein)}p ${r(n.carbs)}c ${r(n.fat)}f`;
+    };
+
+    $.ratioed = function (ingredient, value) {
+      return (ingredient.grams / 100) * value;
+    };
+
+    $.addIngredient = function (food, grams) {
+      this.ingredients.push({ grams, ...food })
+      this.ingredientName = null;
+      this.gramsAdded = 100;
+    };
+
+    $.delIngredient = function (food) {
+      this.ingredients = this.ingredients.filter(i => i.title !== food.title);
+    };
+
+    $.clearRecipe = function (ingredients) {
+      this.ingredients = [];
+      this.recipeName = '';
+      window.location.search = '';
+    }
+
+    $.searchIngredients = function () {
+      if (this.ingredientLookupTimer) clearTimeout(this.ingredientLookupTimer);
+      this.ingredientLookupTimer = setTimeout(async () => {
+        this.ingredientChoices = [];
+        this.error = null;
+        if (!this.ingredientName) return;
+
+        this.status = 'searching products...';
+
+        try {
+          this.ingredientChoices = await Promise.race([
+            Promise.all([
+              db.local.searchFoods(this.ingredientName),
+              db.usda.searchFoods(this.ingredientName),
+            ]).then(results => results.flat()),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), 30_000))
+          ]);
+        } catch (exc) {
+          this.error = exc.message;
+        }
+
+        this.status = null;
+      }, 400);
+    };
+
+    $.selectIngredientResult = async function (product) {
+      this.disabled = true;
+      this.ingredientChoices = [];
+      this.addIngredient(product, Number(this.gramsAdded));
+      this.status = null;
+      this.disabled = false;
+    };
+
+    $.watch('ingredients', function () {
+      $.debounce(100, () => {
+        const data = google.visualization.arrayToDataTable([
+          ['Macro', 'Grams'],
+          ['Protein', this.totalProtein() || 0],
+          ['Carbs', this.totalCarbs() || 0],
+          ['Fat', this.totalFat() || 0],
+        ]);
+
+        const options = {
+          legend: { position: 'top', textStyle: { fontSize: 16 } },
+          pieHole: 0.4,
+          width: 400,
+          height: 300,
+          backgroundColor: { fill: 'transparent' },
+        };
+
+        const chart = new google.visualization.PieChart(document.getElementById('macro-chart'));
+        chart.draw(data, options);
+      })
+    });
+
+    $.totalGrams = function () {
+      return this.ingredients.reduce((sum, i) => sum + i?.grams, 0);
+    };
+    $.totalKcal = function () {
+      return this.ingredients.reduce((sum, i) => sum + $.ratioed(i, i?.nutrients?.kcal), 0);
+    };
+    $.totalProtein = function () {
+      return this.ingredients.reduce((sum, i) => sum + $.ratioed(i, i?.nutrients?.protein), 0);
+    };
+    $.totalFat = function () {
+      return this.ingredients.reduce((sum, i) => sum + $.ratioed(i, i?.nutrients?.fat), 0);
+    };
+    $.totalCarbs = function () {
+      return this.ingredients.reduce((sum, i) => sum + $.ratioed(i, i?.nutrients?.carbs), 0);
+    };
+
+    $.sortedIngredients = function (ingredients) {
+      const arr = [...ingredients];
+      arr.sort((a, b) => (Number(b.grams) - Number(a.grams)));
+      return arr.map(i => `[${i.grams}g] ${i.title}`).join(', ');
+    };
+
+    $.editIngredientAmout = function (ingredient) {
+      console.log('editIngredientAmout', ingredient);
+      const newAmount = prompt('Enter new amount in grams', ingredient.grams);
+      if (!newAmount) return;
+      this.ingredients = this.ingredients.map(i => {
+        if (i.title === ingredient.title) {
+          i.grams = Number(newAmount);
+        }
+        return i;
+      });
+    };
+
+    $.parseRecipe = async function (recipeString) {
+      console.log('parseRecipe', recipeString);
+      const [name, ingredients] = recipeString.split('+', 2);
+
+      this.recipeName = name;
+      this.ingredients = await Promise.all(ingredients.split('|').map(async (i) => {
+        const [src, id, grams] = i.split(':', 3);
+        const ingredient = await db[src].lookupFoodId(id);
+        return { grams: Number(grams), ...ingredient };
+      }));
+    }
+
+    $.recipeLink = function (recipeName, ingredients) {
+      // Serialize the recipe in the URL component as:
+      // ${name}+${source_1}:${id_1}:{grams_1}|${source_2}:${id_2}:{grams_2}...
+      const serializedIngredients = ingredients
+        .filter(i => i?.source && i?.id && i?.grams)
+        .map(i => `${i.source}:${i.id}:${i.grams}`)
+        .join('|');
+      console.log('serializedIngredients', serializedIngredients);
+      const recipeData = `${recipeName}+${serializedIngredients}`;
+      const url = new URL(window.location.href);
+      url.searchParams.set('recipe', recipeData || '');
+      return url.href;
+    };
+
+    $.recipeQRCode = function (recipeName, ingredients) {
+      const urlParam = encodeURIComponent(this.recipeLink(recipeName, ingredients));
+      return `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${urlParam}`;
+    };
+
+    $.printElement = async function (elem) {
+      // Open a new window
+      const win = window.open("");
+
+      // Clone the current document's style tags (both inline <style> and linked stylesheets)
+      const styles = Array.from(document.querySelectorAll("style, link[rel='stylesheet']"))
+        .map(style => style.outerHTML)
+        .join("");
+
+
+      // Write a new HTML document with the cloned styles and the table's content
+      win.document.write("<html><head><title>Print Page</title>" + styles + "</head><body>");
+      win.document.write(elem.outerHTML);
+      win.document.write("</body></html>");
+
+      // Await for all images to load.
+      const images = Array.from(win.document.querySelectorAll('img'));
+      await Promise.all(images.map(img => new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+      })));
+
+      win.document.close(); // Necessary for some browsers to complete rendering
+      win.focus();          // Focus on the new window
+
+      // Trigger print and close the window afterward
+      win.print();
+      win.close();
+    }
+
+    // If a recipe is passed in the URL, parse it.
+    const url = new URL(window.location.href);
+    const recipe = url.searchParams.get('recipe');
+    if (recipe) await $.parseRecipe(recipe);
+
+    await $.mount(document.body);
+  </script>
+
+  <!-- Cloak Window -->
+  <div class="absolute top-0 left-0 right-0 bottom-0 bg-gray-100" :show="false"></div>
+</body>
+
+</html>

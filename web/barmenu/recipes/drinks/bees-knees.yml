@@ -1,0 +1,17 @@
+name: Bee's Knees
+description: gin, lemon and honey
+container: martini glass
+ingredients:
+  gin: 60 ml
+  lemon juice: 60 ml
+  honey: 15 ml
+instructions:
+  - Add lemon juice and honey to shaker
+  - Throroughly blend with a spoon
+  - Add ice and gin to shaker
+  - Shake vigorously
+  - Strain into martini glass
+tags:
+  - classic
+  - prohibition
+  - sour

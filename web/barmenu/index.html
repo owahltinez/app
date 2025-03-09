@@ -1,0 +1,31 @@
+<html>
+
+<head>
+  <title>Wahltinez Recipes</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//unpkg.com/mancha@0.11.0" css="utils" init></script>
+  <!-- <script src="//fresho-dev.github.io/mancha/dist/mancha.js" css="utils" defer init debug></script> -->
+</head>
+
+<body :data="{ menus: ['food', 'drinks'] }" class="p-4 bg-blue-gray-50 text-sans flex flex-col gap-y-8">
+
+  <include src="./header.tpl.html"></include>
+
+  <main class="flex items-center justify-center w-full">
+    <div class="flex flex-col">
+      <div :for="menu in menus">
+        <a :attr:href="'./menu.html?menu=' + menu">
+          <button
+            class="m-8 py-4 px-8 w-64 cursor-pointer bg-gray-200 border border-3 border-blue-gray-700 hover:bg-blue-gray-300 rounded transition">
+            <span class="text-2xl font-bold text-gray-800 uppercase">{{ menu }}</span>
+          </button>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <div :show="false" class="absolute top-0 left-0 right-0 bottom-0 bg-blue-gray-50"></div>
+</body>
+
+</html>

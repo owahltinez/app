@@ -1,0 +1,17 @@
+name: drink name
+description: blend of red and blue with a hint of yellow
+ingredients:
+  red: 30 ml
+  blue: 30 ml
+  yellow: 15 ml
+instructions:
+  - Stir red and blue with ice in shaker
+  - (O) Optional step using prefix
+  - Pour over ice in glass
+  - Pour yellow in glass
+tags:
+  - classic
+  - smokey
+  - sour
+  - fruity
+  - refreshing

@@ -1,0 +1,12 @@
+name: Mimosa
+description: brunch is way more fun if you're getting plastered
+container: champagne glass
+ingredients:
+  sparkling wine: 60 ml
+  orange juice: 60 ml
+instructions:
+  - Pour sparkling wine into champagne glass
+  - Pour orange juice into champagne glass
+tags:
+  - trashy
+  - sparkling

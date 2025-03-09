@@ -1,0 +1,15 @@
+name: Frozen Daiquiri
+description: frosty twist on Hemingway's favourite
+container: martini glass
+ingredients:
+  clear rum: 60 ml
+  lime juice: 30 ml
+  simple syrup: 15 ml
+instructions:
+  - Blend 6 ice cubes and all ingredients until smooth
+  - (O) Add frozen fruit or syrup for flavoured variations
+  - Serve in martini glass
+tags:
+  - classic
+  - frozen
+  - refreshing
