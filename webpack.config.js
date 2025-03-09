@@ -10,13 +10,10 @@ export default {
   entry: fs
     .readdirSync("./dist/web", { withFileTypes: true })
     .filter((dir) => dir.isDirectory())
-    .map((dir) => `./dist/web/${dir.name}/main.js`)
+    .map((dir) => `${dir.name}/main.js`)
     .filter((file) => fs.existsSync(file))
-    .concat(["./dist/web/main.js"])
-    .reduce(
-      (e, f) => Object.assign(e, { [f.replace("dist/web/", "")]: f }),
-      {}
-    ),
+    .concat(["/main.js"])
+    .reduce((x, f) => Object.assign(x, { [f]: `./dist/web/${f}` }), {}),
   optimization: {
     minimize: true,
   },

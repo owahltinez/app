@@ -5,6 +5,7 @@
   "main": "srv/dist/index.js",
   "type": "module",
   "scripts": {
+    "clean": "npx gulp clean",
     "build": "npx gulp build",
     "start:web": "npx http-server -p 0 ./dist/web",
     "start:srv": "npx wrangler dev srv/dist/index.js",
@@ -20,7 +21,9 @@
     "firebase-tools": "^13.33.0",
     "gulp": "^5.0.0",
     "gulp-markdown": "^8.0.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
   },
   "dependencies": {
     "fuse.js": "^7.1.0"

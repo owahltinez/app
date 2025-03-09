@@ -37,7 +37,6 @@ GulpClient.task("build:assets", function () {
 });
 
 GulpClient.task("build:webpack", function (cb) {
-  // The gulp-typescript plugin is deprecated.
   exec("npx webpack", (error, stdout, stderr) => {
     console.log(stdout);
     cb(error ? "\n" + stdout || stderr || error : 0);
