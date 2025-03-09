@@ -16,7 +16,9 @@ jobs:
           node-version: "14"
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install -g node-gyp@latest
 
       - name: Build
         run: npm run build
