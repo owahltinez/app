@@ -26,6 +26,11 @@ jobs:
         with:
           path: dist/web
 
+      - name: Deploy to Firebase
+        run: |
+          npm run deploy:web -- --token ${{ secrets.FIREBASE_TOKEN }}
+  
+
   deploy:
     needs: build
 
@@ -42,7 +47,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-      - name: Deploy to Firebase
-        run: |
-          npm run deploy:web -- --token ${{ secrets.FIREBASE_TOKEN }}
