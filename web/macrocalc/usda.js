@@ -20,17 +20,23 @@ function parseNutrients(nutrients) {
   const x = nutrients.reduce(
     (agg, n) => ({
       ...agg,
-      [n.nutrientName || n.nutrient.name]: n.value || n.amount || 0,
+      [n.nutrientName || n.nutrient.name]: {
+        value: n.value || n.amount || 0,
+        unit: n.unitName || n.nutrient.unitName || "",
+      },
     }),
     {}
   );
+  x["Energy"] = x["Energy"] || x["Energy (Atwater Specific Factors)"];
+  const energyConversionFactor =
+    x["Energy"]?.unit?.toLowerCase() === "kj" ? 0.239006 : 1;
   return {
-    kcal: x["Energy"] || 0,
-    protein: x["Protein"] || 0,
-    fat: x["Total lipid (fat)"] || 0,
-    carbs: x["Carbohydrate, by difference"] || 0,
-    fiber: x["Fiber, total dietary"] || 0,
-    sugar: x["Total Sugars"] || 0,
+    kcal: x["Energy"]?.value * energyConversionFactor,
+    protein: x["Protein"]?.value || 0,
+    fat: x["Total lipid (fat)"]?.value || 0,
+    carbs: x["Carbohydrate, by difference"]?.value || 0,
+    fiber: x["Fiber, total dietary"]?.value || 0,
+    sugar: x["Total Sugars"]?.value || 0,
   };
 }
 
