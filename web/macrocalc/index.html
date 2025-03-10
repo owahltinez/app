@@ -15,7 +15,7 @@
 <body class="bg-gray-100 text-gray-900 font-sans">
   <div class="mx-auto p-4 max-w-full lg:max-w-768px overflow-x-hidden">
     <div class="flex flex-col items-center">
-      <h2 class="text-4xl mb-4 font-thin text-center" :show="recipeName">{{ recipeName || 'MacroCalc' }}</h2>
+      <h2 class="text-4xl mb-4 font-thin text-center">{{ recipeName || 'MacroCalc' }}</h2>
     </div>
 
     <div class="mt-4 overflow-x-auto" :show="ingredients.length">
@@ -102,7 +102,7 @@
         <div class="flex flex-col">
           <span>&#8203;</span>
           <div :on:click="printElement(document.querySelector('#nutritional-info'))"
-            class="flex flex-row items-center gap-2 cursor-pointer transition text-gray-700 text-center bg-gray-200 hover:bg-gray-300 border border-solid border-gray-700 rounded p-2">
+            class="flex flex-row items-center gap-2 cursor-pointer transition text-gray-800 text-center bg-gray-200 hover:bg-gray-300 border border-solid border-gray-700 rounded p-2">
             <i class="bi bi-printer text-xl"></i>
             <span class="text-base flex-grow">Print Nutritional Label</span>
           </div>
