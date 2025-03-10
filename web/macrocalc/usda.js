@@ -27,7 +27,10 @@ function parseNutrients(nutrients) {
     }),
     {}
   );
-  x["Energy"] = x["Energy"] || x["Energy (Atwater Specific Factors)"];
+  x["Energy"] =
+    x["Energy"] ||
+    x["Energy (Atwater Specific Factors)"] ||
+    x["Energy (Atwater General Factors)"];
   const energyConversionFactor =
     x["Energy"]?.unit?.toLowerCase() === "kj" ? 0.239006 : 1;
   return {
