@@ -19,11 +19,5 @@
         {
             "origin": "https://wtz.app/macrocalc"
         }
-    ],
-    "protocol_handlers": [
-        {
-            "protocol": "web+macrocalc",
-            "url": "/?recipe=%s"
-        }
     ]
 }
