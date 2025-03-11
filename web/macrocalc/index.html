@@ -252,6 +252,9 @@
           class="flex flex-row p-1 text-sm text-blue-700 border border-solid border-blue-700 rounded hover:bg-blue-50 transition">
           <span class="flex-grow">{{ product.title }}</span>
           <span class="font-mono text-nowrap px-1">{{ foodMacroString(product) }}</span>
+          <span class="px-2px" :for="attr in product.attributes">
+            <i class="bi" :class="attr.icon" :attr:title="attr.text"></i>
+          </span>
         </div>
       </div>
     </div>
@@ -323,7 +326,21 @@
             Promise.all([
               db.local.searchFoods(this.ingredientName),
               db.usda.searchFoods(this.ingredientName),
-            ]).then(results => results.flat()),
+            ])
+              .then(results => results.flat())
+              .then(results => results.map((food) => {
+                const attributes = [];
+                if (food.nutrients.protein / food.nutrients.kcal > 0.1) {
+                  attributes.push({ icon: 'bi bi-file-bar-graph-fill', text: 'Great Protein / Calorie Ratio' });
+                }
+                if (food.nutrients.protein > 10) {
+                  attributes.push({ icon: 'bi bi-file-arrow-up-fill', text: 'High Protein' });
+                }
+                if (food.nutrients.kcal < 50) {
+                  attributes.push({ icon: 'bi bi-file-check-fill', text: 'Low Calorie' });
+                }
+                return { ...food, attributes };
+              })),
             new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), 30_000))
           ]);
         } catch (exc) {

@@ -38,8 +38,8 @@ function parseNutrients(nutrients) {
     protein: x["Protein"]?.value || 0,
     fat: x["Total lipid (fat)"]?.value || 0,
     carbs: x["Carbohydrate, by difference"]?.value || 0,
-    fiber: x["Fiber, total dietary"]?.value || 0,
-    sugar: x["Total Sugars"]?.value || 0,
+    // fiber: x["Fiber, total dietary"]?.value || 0,
+    // sugar: x["Total Sugars"]?.value || 0,
   };
 }
 
@@ -85,7 +85,7 @@ function parseFoodIdLookupResult(result) {
 }
 
 function filterMissingMacros(food) {
-  return Object.keys(food.nutrients).some((k) => food.nutrients[k] > 0);
+  return Object.keys(food.nutrients).every((k) => food.nutrients[k] > 0);
 }
 
 export class USDA {
