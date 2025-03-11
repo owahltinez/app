@@ -3,7 +3,7 @@
 <head>
   <link rel="icon" href="icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title :text="{{ recipeName || 'MacroCalc' }}">MacroCalc</title>
+  <title :text="recipeName || 'MacroCalc'">MacroCalc</title>
   <script src="//unpkg.com/mancha@0.12.15" css="utils"></script>
   <!-- <script src="//fresho-dev.github.io/mancha/mancha.js" css="utils"></script> -->
   <script src="//www.gstatic.com/charts/loader.js"></script>
@@ -404,7 +404,6 @@
     };
 
     $.editIngredientAmout = function (ingredient) {
-      console.log('editIngredientAmout', ingredient);
       const newAmount = prompt('Enter new amount in grams', ingredient.grams);
       if (!newAmount) return;
       this.ingredients = this.ingredients.map(i => {
@@ -416,7 +415,6 @@
     };
 
     $.parseRecipe = async function (recipeString) {
-      console.log('parseRecipe', recipeString);
       const [name, ingredients] = recipeString.split('+', 2);
 
       this.recipeName = name;
@@ -434,7 +432,6 @@
         .filter(i => i?.source && i?.id && i?.grams)
         .map(i => `${i.source}:${i.id}:${i.grams}`)
         .join('|');
-      console.log('serializedIngredients', serializedIngredients);
       const recipeData = `${recipeName}+${serializedIngredients}`;
       const url = new URL(window.location.href);
       url.searchParams.set('recipe', recipeData || '');
@@ -481,6 +478,7 @@
     if (recipe) await $.parseRecipe(recipe);
 
     await $.mount(document.body);
+    await $.mount(document.head);
   </script>
 
   <!-- Cloak Window -->
