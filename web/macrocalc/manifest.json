@@ -1,0 +1,16 @@
+{
+    "name": "MacroCalc",
+    "short_name": "MacroCalc",
+    "start_url": "/macrocalc",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#6A3DE8",
+    "description": "A simple macro calculator for recipes.",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

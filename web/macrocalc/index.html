@@ -1,15 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+  <link rel="icon" href="icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MacroCalc</title>
+  <title :text="{{ recipeName || 'MacroCalc' }}">MacroCalc</title>
   <script src="//unpkg.com/mancha@0.12.15" css="utils"></script>
   <!-- <script src="//fresho-dev.github.io/mancha/mancha.js" css="utils"></script> -->
   <script src="//www.gstatic.com/charts/loader.js"></script>
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="manifest" href="manifest.json">
 
+  <!-- https://blog.alexwendland.com/2020-09-25-translucent-status-bar-in-pwas-on-ios/ -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <style>
+    body {
+      background-color: whitesmoke;
+    }
+  </style>
 </head>
 
 <body class="bg-gray-100 text-gray-900 font-sans">
