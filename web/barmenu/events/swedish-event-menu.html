@@ -191,6 +191,50 @@
       color: #1a237e;
       margin-bottom: 6px;
       letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .speaker-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      position: relative;
+    }
+
+    .speaker-btn:hover {
+      background: rgba(26, 35, 126, 0.1);
+      transform: scale(1.1);
+    }
+
+    .speaker-btn:active {
+      transform: scale(0.95);
+    }
+
+    .speaker-btn.speaking {
+      background: rgba(26, 35, 126, 0.2);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    .speaker-icon {
+      width: 14px;
+      height: 14px;
+      fill: #1a237e;
     }
 
     .item-description {
@@ -273,6 +317,16 @@
         font-size: 1.2em;
       }
 
+      .speaker-btn {
+        width: 26px;
+        height: 26px;
+      }
+
+      .speaker-icon {
+        width: 15px;
+        height: 15px;
+      }
+
       .item-description {
         font-size: 0.95em;
       }
@@ -337,6 +391,16 @@
         font-size: 1.3em;
         margin-bottom: 8px;
         letter-spacing: 0.5px;
+      }
+
+      .speaker-btn {
+        width: 28px;
+        height: 28px;
+      }
+
+      .speaker-icon {
+        width: 16px;
+        height: 16px;
       }
 
       .item-description {
@@ -567,7 +631,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>Midsummer Smörgåsbord</h1>
+      <h1>Försenad Midsommar Smörgåsbord</h1>
       <div class="subtitle">Traditional Swedish Feast</div>
       <div class="swedish-flag"></div>
       <div class="date">August 3rd, 2025 • 6:00 PM</div>
@@ -579,14 +643,28 @@
         <div class="menu-items">
           <div class="menu-item">
             <div class="item-info">
-              <div class="item-name">Köttbullar</div>
+              <div class="item-name">
+                <span>Köttbullar</span>
+                <button class="speaker-btn" onclick="speakSwedish('Köttbullar')" title="Pronounce in Swedish">
+                  <svg class="speaker-icon" viewBox="0 0 24 24">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                  </svg>
+                </button>
+              </div>
               <div class="item-description">Traditional Swedish meatballs with a choice of sauce: gräddsås or senap &
                 dill sås</div>
             </div>
           </div>
           <div class="menu-item">
             <div class="item-info">
-              <div class="item-name">Musköt pumpa smörgås</div>
+              <div class="item-name">
+                <span>Musköt pumpa smörgås</span>
+                <button class="speaker-btn" onclick="speakSwedish('Musköt pumpa smörgås')" title="Pronounce in Swedish">
+                  <svg class="speaker-icon" viewBox="0 0 24 24">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                  </svg>
+                </button>
+              </div>
               <div class="item-description">Roasted butternut squash spread served on traditional Swedish knäckebröd
               </div>
             </div>
@@ -601,7 +679,14 @@
         <div class="menu-items">
           <div class="menu-item">
             <div class="item-info">
-              <div class="item-name">Svensk-kryddad fylld musköt pumpa</div>
+              <div class="item-name">
+                <span>Svensk-kryddad fylld musköt pumpa</span>
+                <button class="speaker-btn" onclick="speakSwedish('Svensk-kryddad fylld musköt pumpa')" title="Pronounce in Swedish">
+                  <svg class="speaker-icon" viewBox="0 0 24 24">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                  </svg>
+                </button>
+              </div>
               <div class="item-description">Roasted butternut squash stuffed with seasoned buckwheat and vegan chicken,
                 infused with traditional Swedish spices</div>
             </div>
@@ -616,14 +701,28 @@
         <div class="menu-items">
           <div class="menu-item">
             <div class="item-info">
-              <div class="item-name">Pepparkakor</div>
+              <div class="item-name">
+                <span>Pepparkakor</span>
+                <button class="speaker-btn" onclick="speakSwedish('Pepparkakor')" title="Pronounce in Swedish">
+                  <svg class="speaker-icon" viewBox="0 0 24 24">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                  </svg>
+                </button>
+              </div>
               <div class="item-description">Traditional Swedish spiced cookies (totally not homemade) with warm notes of
                 ginger, cinnamon, and cloves</div>
             </div>
           </div>
           <div class="menu-item">
             <div class="item-info">
-              <div class="item-name">Lingon glass</div>
+              <div class="item-name">
+                <span>Lingon glass</span>
+                <button class="speaker-btn" onclick="speakSwedish('Lingon glass')" title="Pronounce in Swedish">
+                  <svg class="speaker-icon" viewBox="0 0 24 24">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                  </svg>
+                </button>
+              </div>
               <div class="item-description">Creamy homemade ice cream infused with tart Swedish lingonberries</div>
             </div>
           </div>
@@ -637,21 +736,28 @@
         <div class="menu-items">
           <div class="menu-item">
             <div class="item-info">
-              <div class="item-name">Spritad blåbärssoppa</div>
+              <div class="item-name">
+                <span>Spritad blåbärssoppa</span>
+                <button class="speaker-btn" onclick="speakSwedish('Spritad blåbärssoppa')" title="Pronounce in Swedish">
+                  <svg class="speaker-icon" viewBox="0 0 24 24">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                  </svg>
+                </button>
+              </div>
               <div class="item-description">Traditional Swedish blueberry soup with a spirited twist, served warm or
                 chilled</div>
             </div>
           </div>
           <div class="menu-item">
             <div class="item-info">
-              <div class="item-name">Glögg</div>
-              <div class="item-description">Classic Swedish mulled wine with almonds and raisins, perfectly spiced for
-                the season</div>
-            </div>
-          </div>
-          <div class="menu-item">
-            <div class="item-info">
-              <div class="item-name">Whiskey urval</div>
+              <div class="item-name">
+                <span>Whiskey urval</span>
+                <button class="speaker-btn" onclick="speakSwedish('Whiskey urval')" title="Pronounce in Swedish">
+                  <svg class="speaker-icon" viewBox="0 0 24 24">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                  </svg>
+                </button>
+              </div>
               <div class="item-description">Curated selection of fine whiskeys for the discerning palate</div>
             </div>
           </div>
@@ -668,6 +774,58 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function speakSwedish(text) {
+      // Check if the Web Speech API is supported
+      if ('speechSynthesis' in window) {
+        // Cancel any ongoing speech
+        window.speechSynthesis.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        
+        // Set language to Swedish
+        utterance.lang = 'sv-SE';
+        
+        // Set speech rate and pitch for better pronunciation
+        utterance.rate = 0.8;
+        utterance.pitch = 1.0;
+        utterance.volume = 0.8;
+        
+        // Find the button that was clicked and add visual feedback
+        const buttons = document.querySelectorAll('.speaker-btn');
+        let activeButton = null;
+        
+        // Find which button was clicked by checking the text content
+        buttons.forEach(button => {
+          const itemName = button.parentElement.querySelector('span').textContent;
+          if (itemName === text) {
+            activeButton = button;
+            button.classList.add('speaking');
+          }
+        });
+        
+        // Remove speaking class when speech ends
+        utterance.onend = function() {
+          if (activeButton) {
+            activeButton.classList.remove('speaking');
+          }
+        };
+        
+        utterance.onerror = function() {
+          if (activeButton) {
+            activeButton.classList.remove('speaking');
+          }
+          console.warn('Speech synthesis error occurred');
+        };
+        
+        // Speak the text
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert('Speech synthesis is not supported in your browser. Please try a modern browser like Chrome, Firefox, or Safari.');
+      }
+    }
+  </script>
 </body>
 
 </html>
