@@ -20,28 +20,29 @@
     <div class="mt-4 overflow-x-auto" :show="ingredients.length">
       <table class="w-full text-xs sm:text-sm border-collapse border-solid border-0">
         <thead>
+          <!-- Clicking a header sorts the ingredients by that column. -->
           <tr class="border-0 border-b border-solid border-gray-300">
-            <th class="px-2 py-2 min-w-32">
+            <th class="px-2 py-2 min-w-32 cursor-pointer hover:underline" :on:click="sortBy('name')">
               <span class="sm:hidden"></span>
               <span class="hidden sm:block">Ingredient</span>
             </th>
-            <th class="px-2 py-2">
+            <th class="px-2 py-2 cursor-pointer hover:underline" :on:click="sortBy('grams')">
               <span class="sm:hidden">Amt</span>
               <span class="hidden sm:block">Amount</span>
             </th>
-            <th class="px-2 py-2">
+            <th class="px-2 py-2 cursor-pointer hover:underline" :on:click="sortBy('kcal')">
               <span class="sm:hidden">kcal</span>
               <span class="hidden sm:block">Energy</span>
             </th>
-            <th class="px-2 py-2">
+            <th class="px-2 py-2 cursor-pointer hover:underline" :on:click="sortBy('protein')">
               <span class="sm:hidden">P</span>
               <span class="hidden sm:block">Protein</span>
             </th>
-            <th class="px-2 py-2">
+            <th class="px-2 py-2 cursor-pointer hover:underline" :on:click="sortBy('carbs')">
               <span class="sm:hidden">C</span>
               <span class="hidden sm:block">Carbs</span>
             </th>
-            <th class="px-2 py-2">
+            <th class="px-2 py-2 cursor-pointer hover:underline" :on:click="sortBy('fat')">
               <span class="sm:hidden">F</span>
               <span class="hidden sm:block">Fat</span>
             </th>
@@ -268,11 +269,15 @@
     // import { USDA } from "./usda.js";
     // import { Local } from "./local.js";
     // const db = { usda: new USDA(), local: new Local() };
-    import { db } from "./main.js";
+    import { db, sortIngredients } from "./main.js";
 
     const { $ } = Mancha;
     window.$ = $;
     $.db = db;
+
+    $.sortBy = function (column) {
+      $.ingredients = sortIngredients(this.ingredients, column);
+    };
 
     // Asynchronously load Google Charts.
     await google.charts.load('current', { 'packages': ['corechart'] });

@@ -10,7 +10,8 @@
     "start:web": "npx http-server -p 0 ./dist/web",
     "start:srv": "npx wrangler dev srv/dist/index.js",
     "deploy:web": "npx firebase-tools deploy --only hosting",
-    "watch:web": "npx watch 'npm run build' ./web"
+    "watch:web": "npx watch 'npm run build' ./web",
+    "test": "npm run build && node --test dist/tests/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^26.1.1",
     "firebase-tools": "^15.24.0",
     "gulp": "^5.0.1",
     "gulp-markdown": "^8.0.0",
