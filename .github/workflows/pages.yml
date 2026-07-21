@@ -27,8 +27,11 @@ jobs:
           path: dist/web
 
       - name: Deploy to Firebase
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
-          npm run deploy:web -- --token ${{ secrets.FIREBASE_TOKEN }}
+          echo "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/firebase-sa.json"
+          GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/firebase-sa.json" npm run deploy:web
 
   deploy:
     needs: build
