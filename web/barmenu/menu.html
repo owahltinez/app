@@ -10,6 +10,17 @@
   <!-- No `init`: data is fetched first, then the page is mounted manually below. -->
   <script src="//unpkg.com/mancha@0.22.6" css="utils"></script>
   <!-- <script src="//fresho-dev.github.io/mancha/dist/mancha.js" css="utils" init debug></script> -->
+  <style>
+    /* Workaround for mancha 0.22: on-demand variant classes with `%` values
+       (e.g. sm:w-50%) fail to inject because `%` is not escaped in selectors.
+       The double-class selector outranks the utils `.w-full` rule, which is
+       injected later in the head and would otherwise win the specificity tie. */
+    @media (min-width: 640px) {
+      .w-full.sm-w-half {
+        width: 50%;
+      }
+    }
+  </style>
 </head>
 
 <body class="bg-blue-gray-50 font-serif p-4 flex flex-col justify-center items-center">
@@ -19,7 +30,7 @@
   <main class="sm:mt-8 max-w-1024px transition opacity-0" style="transition-duration: 750ms">
 
     <div class="flex flex-wrap justify-center -mt-4">
-      <div :for="item in items" class="w-full sm:w-50% flex-grow">
+      <div :for="item in items" class="w-full sm-w-half flex-grow">
         <div class="w-full h-2px bg-blue-gray-100 my-4"></div>
 
         <div class="text-center">
