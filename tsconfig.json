@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "strict": true,
     "stripInternal": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
