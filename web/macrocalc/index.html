@@ -206,7 +206,9 @@
 
             <!-- QR Code-->
             <div class="pl-2 pt-2">
-              <img class="w-20 h-20" alt="QR Code" :attr:src="recipeQRCode(recipeName, ingredients)" />
+              <!-- min-w keeps the flex row from squeezing the image: the mancha 0.22
+                   CSS reset sets `img { max-width: 100% }`, unlike earlier versions. -->
+              <img class="w-20 h-20 min-w-20" alt="QR Code" :attr:src="recipeQRCode(recipeName, ingredients)" />
             </div>
           </div>
         </div>
