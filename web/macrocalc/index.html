@@ -269,7 +269,7 @@
     // import { USDA } from "./usda.js";
     // import { Local } from "./local.js";
     // const db = { usda: new USDA(), local: new Local() };
-    import { db, sortIngredients } from "./main.js";
+    import { db, sortIngredients, updateIngredientAmount } from "./main.js";
 
     const { $ } = Mancha;
     window.$ = $;
@@ -416,12 +416,7 @@
     $.editIngredientAmout = function (ingredient) {
       const newAmount = prompt('Enter new amount in grams', ingredient.grams);
       if (!newAmount) return;
-      this.ingredients = this.ingredients.map(i => {
-        if (i.title === ingredient.title) {
-          i.grams = Number(newAmount);
-        }
-        return i;
-      });
+      this.ingredients = updateIngredientAmount(this.ingredients, ingredient, newAmount);
     };
 
     $.parseRecipe = async function (recipeString) {
