@@ -8,10 +8,10 @@
   <script src="//unpkg.com/js-yaml@5.2.1/dist/browser/js-yaml.umd.min.js" defer></script>
   <script src="//unpkg.com/showdown@2.1.0/dist/showdown.min.js" defer></script>
   <!-- No `init`: data is fetched first, then the page is mounted manually below. -->
-  <script src="//unpkg.com/mancha@0.22.6" css="utils"></script>
+  <script src="//unpkg.com/mancha@0.23.1" css="utils"></script>
   <!-- <script src="//fresho-dev.github.io/mancha/dist/mancha.js" css="utils" init debug></script> -->
   <style>
-    /* Workaround for mancha 0.22: on-demand variant classes with `%` values
+    /* Workaround for mancha 0.22+: on-demand variant classes with `%` values
        (e.g. sm:w-50%) fail to inject because `%` is not escaped in selectors.
        The double-class selector outranks the utils `.w-full` rule, which is
        injected later in the head and would otherwise win the specificity tie. */
