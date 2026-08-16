@@ -4,7 +4,7 @@
   <link rel="icon" href="icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title :text="recipeName || 'MacroCalc'">MacroCalc</title>
-  <script src="//unpkg.com/mancha@0.23.1" css="utils"></script>
+  <script src="//unpkg.com/mancha@0.24.0" css="utils"></script>
   <!-- <script src="//fresho-dev.github.io/mancha/mancha.js" css="utils"></script> -->
   <script src="//www.gstatic.com/charts/loader.js"></script>
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -206,8 +206,9 @@
             </p>
 
             <!-- QR Code-->
-            <!-- flex-none keeps the row from squeezing the image: the mancha 0.22+
-                 CSS reset sets `img { max-width: 100% }`, unlike earlier versions. -->
+            <!-- The mancha CSS reset sets `img { max-width: 100% }`, so a flex row
+                 squeezes the image. Wrapping it in flex-none is the documented
+                 escape hatch; flex-none on the image itself would not be enough. -->
             <div class="pl-2 pt-2 flex-none">
               <img class="w-auto max-h-24" alt="QR Code" :attr:src="recipeQRCode(recipeName, ingredients)" />
             </div>
