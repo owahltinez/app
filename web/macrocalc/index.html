@@ -112,9 +112,14 @@
           <input :bind="recipeName" type="text"
             class="h-6 px-2 py-1 rounded border border-solid border-gray-200 focus:border-gray-700" />
         </label>
+        <label class="flex flex-col">
+          <span>Servings</span>
+          <input id="servings" :bind="servings" type="number" min="1" step="1"
+            class="h-6 px-2 py-1 rounded border border-solid border-gray-200 focus:border-gray-700" />
+        </label>
         <label class="flex flex-col flex-grow">
           <span>Share Link</span>
-          <input readonly type="text" :prop:value="recipeLink(recipeName, ingredients)"
+          <input readonly type="text" :prop:value="recipeLink(recipeName, ingredients, servings)"
             class="h-6 px-2 py-1 rounded border border-solid border-gray-200 focus:border-gray-700"
             :on:click="$elem.setSelectionRange(0, $elem.value.length)" />
         </label>
@@ -142,7 +147,7 @@
                   <span class="text-xl">Nutrition Facts</span>
                 </th>
                 <th class="px-2 py-2">
-                  <span class="">Total</span>
+                  <span class="">Per Serving</span>
                 </th>
                 <th class="px-2 py-2">
                   <span class="">Per 100g</span>
@@ -155,7 +160,7 @@
                   Energy
                 </th>
                 <td class="px-2 py-2 text-center">
-                  {{ totalKcal(ingredients).toFixed(1) }}kcal
+                  {{ perServing(totalKcal(ingredients), servings).toFixed(1) }}kcal
                 </td>
                 <td class="px-2 py-2 text-center">
                   {{ (totalKcal(ingredients) / totalGrams(ingredients) * 100).toFixed(1) }}kcal
@@ -166,7 +171,7 @@
                   Protein
                 </th>
                 <td class="px-2 py-2 text-center">
-                  {{ totalProtein(ingredients).toFixed(1) }}g
+                  {{ perServing(totalProtein(ingredients), servings).toFixed(1) }}g
                 </td>
                 <td class="px-2 py-2 text-center">
                   {{ (totalProtein(ingredients) / totalGrams(ingredients) * 100).toFixed(1) }}g
@@ -177,7 +182,7 @@
                   Carbs
                 </th>
                 <td class="px-2 py-2 text-center">
-                  {{ totalCarbs(ingredients).toFixed(1) }}g
+                  {{ perServing(totalCarbs(ingredients), servings).toFixed(1) }}g
                 </td>
                 <td class="px-2 py-2 text-center">
                   {{ (totalCarbs(ingredients) / totalGrams(ingredients) * 100).toFixed(1) }}g
@@ -188,7 +193,7 @@
                   Fat
                 </th>
                 <td class="px-2 py-2 text-center">
-                  {{ totalFat(ingredients).toFixed(1) }}g
+                  {{ perServing(totalFat(ingredients), servings).toFixed(1) }}g
                 </td>
                 <td class="px-2 py-2 text-center">
                   {{ (totalFat(ingredients) / totalGrams(ingredients) * 100).toFixed(1) }}g
@@ -210,7 +215,7 @@
                  squeezes the image. Wrapping it in flex-none is the documented
                  escape hatch; flex-none on the image itself would not be enough. -->
             <div class="pl-2 pt-2 flex-none">
-              <img class="w-auto max-h-24" alt="QR Code" :attr:src="recipeQRCode(recipeName, ingredients)" />
+              <img class="w-auto max-h-24" alt="QR Code" :attr:src="recipeQRCode(recipeName, ingredients, servings)" />
             </div>
           </div>
         </div>
@@ -270,7 +275,7 @@
     // import { USDA } from "./usda.js";
     // import { Local } from "./local.js";
     // const db = { usda: new USDA(), local: new Local() };
-    import { db, sortIngredients, updateIngredientAmount } from "./main.js";
+    import { db, sortIngredients, updateIngredientAmount, parseServings, perServing } from "./main.js";
 
     const { $ } = Mancha;
     window.$ = $;
@@ -292,6 +297,10 @@
     $.ingredientChoices = [];
     $.ingredientLookupTimer = null;
     $.recipeName = '';
+    $.servings = 1;
+
+    // The label divides each total by the serving count.
+    $.perServing = perServing;
 
     $.foodMacroString = function (food) {
       const n = food.nutrients;
@@ -317,6 +326,7 @@
     $.clearRecipe = function (ingredients) {
       this.ingredients = [];
       this.recipeName = '';
+      this.servings = 1;
       window.location.search = '';
     }
 
@@ -431,7 +441,7 @@
       }));
     }
 
-    $.recipeLink = function (recipeName, ingredients) {
+    $.recipeLink = function (recipeName, ingredients, servings) {
       // Serialize the recipe in the URL component as:
       // ${name}+${source_1}:${id_1}:{grams_1}|${source_2}:${id_2}:{grams_2}...
       const serializedIngredients = ingredients
@@ -441,11 +451,18 @@
       const recipeData = `${recipeName}+${serializedIngredients}`;
       const url = new URL(window.location.href);
       url.searchParams.set('recipe', recipeData || '');
+
+      // Only carry the serving count when it differs from the implied default,
+      // so links to single-serving recipes stay as short as they were before.
+      const servingCount = parseServings(servings);
+      if (servingCount > 1) url.searchParams.set('servings', String(servingCount));
+      else url.searchParams.delete('servings');
+
       return url.href;
     };
 
-    $.recipeQRCode = function (recipeName, ingredients) {
-      const urlParam = encodeURIComponent(this.recipeLink(recipeName, ingredients));
+    $.recipeQRCode = function (recipeName, ingredients, servings) {
+      const urlParam = encodeURIComponent(this.recipeLink(recipeName, ingredients, servings));
       return `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${urlParam}`;
     };
 
@@ -482,6 +499,9 @@
     const url = new URL(window.location.href);
     const recipe = url.searchParams.get('recipe');
     if (recipe) await $.parseRecipe(recipe);
+
+    // A shared link carries the serving count the recipe was divided into.
+    $.servings = parseServings(url.searchParams.get('servings'));
 
     await $.mount(document.body);
     await $.mount(document.head);
