@@ -1,11 +1,12 @@
 name: Kentucky Mule
 description: classic with a whiskey twist
 container: copper mug
+kcal: 141
 ingredients:
   whiskey: 60 ml
   lime juice: 30 ml
   simple syrup: 30 ml
-  ginger beer: 180 ml
+  diet ginger beer: 180 ml
   angostura bitters: 2 dashes
 instructions:
   - Mix liquor, lime juice and simple syrup with ice in shaker

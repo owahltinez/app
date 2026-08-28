@@ -1,9 +1,10 @@
 name: Dark and Stormy
 description: rum and ginger highball with a lime twist
 container: highball glass
+kcal: 135
 ingredients:
   dark rum: 60 ml
-  ginger bear: 90 ml
+  diet ginger beer: 90 ml
   lime juice: 30 ml
 instructions:
   - Mix rum and lime juice with ice in shaker

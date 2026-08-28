@@ -28,6 +28,10 @@
         </div>
 
         <div :show="recipes" class="flex flex-col items-center">
+          <small :show="item.kcal" class="pt-2 opacity-60">
+            {{ item.kcal }} kcal{{ item.serves ? ' per serving' : '' }}
+          </small>
+
           <details class="pt-2 items-center">
             <summary class="text-center cursor-pointer hover:underline transition">Ingredients</summary>
             <div class="flex flex-col pt-2">

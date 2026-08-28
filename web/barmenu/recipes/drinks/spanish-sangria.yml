@@ -1,6 +1,8 @@
 name: Spanish Sangria
 description: traditional Spanish recipe
 container: wine glass
+serves: 16
+kcal: 92
 ingredients:
   red wine: 1.5 l
   orange slices: 4 oranges

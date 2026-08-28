@@ -1,9 +1,10 @@
 name: Espresso Martini
 description: classy, smooth and slightly bitter, like your ex
 container: martini glass
+kcal: 147
 ingredients:
   vodka: 30 ml
-  kahlua: 30 ml
+  coffee liqueur: 30 ml
   espresso: 30 ml
   almond milk: 30 ml
 instructions:
