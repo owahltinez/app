@@ -1,7 +1,7 @@
 name: Pisco Sour
 description: national drink of Peru
 container: standard glass
-kcal: 134
+kcal: 135
 ingredients:
   pisco: 60 ml
   lemon juice: 45 ml

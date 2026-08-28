@@ -11,7 +11,8 @@
     "start:srv": "npx wrangler dev srv/dist/index.js",
     "deploy:web": "npx firebase-tools deploy --only hosting",
     "watch:web": "npx watch 'npm run build' ./web",
-    "kcal": "npm run build && node dist/tools/barmenu-kcal.js",
+    "kcal": "uv run tools/barmenu_kcal.py",
+    "test:kcal": "uv run --with pytest --with click pytest tools/",
     "test": "npm run build && node --test dist/tests/*.test.js"
   },
   "repository": {
