@@ -1,7 +1,7 @@
 name: Martini
 description: Mr Bond was right, stirred and not shaken
 container: martini glass
-kcal: 165
+kcal: 163
 ingredients:
   gin: 60 ml
   dry vermouth: 30 ml
