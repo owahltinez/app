@@ -41,13 +41,14 @@ LIQUIDS = {
     "bourbon": ("afcd", "F000051", SPIRIT),
     "brandy": ("afcd", "F000051", SPIRIT),
     "pisco": ("afcd", "F000051", SPIRIT),
-    # Closest catalog records to Campari, Kahlua and the Martini vermouths.
-    "red aperitif": ("usda", "173176", 1.03),
+    # The catalog has no alcoholic aperitif, so this one is a manual entry.
+    "red aperitif": ("manual", "m_42e8aef249", 1.0),
+    # Closest catalog records to Kahlua and the Martini vermouths.
     "coffee liqueur": ("usda", "175097", 1.1),
     "dry vermouth": ("afcd", "F009567", 0.99),
     "sweet vermouth": ("afcd", "F009566", 1.02),
     "diet ginger beer": ("usda", "1879736", 1.0),
-    "simple syrup": ("usda", "2396581", 1.0),
+    "simple syrup": ("usda", "2422502", 1.0),
     "tonic water": ("afcd", "F008460", 1.0),
     "sparkling wine": ("afcd", "F009590", 0.99),
     "red wine": ("afcd", "F009571", 0.99),
