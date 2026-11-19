@@ -1,6 +1,13 @@
 {
     "hosting": {
         "site": "w1kapp",
-        "public": "./dist/web"
+        "public": "./dist/web",
+        "redirects": [
+            {
+                "source": "/mc",
+                "destination": "https://mrchromebox.tech/firmware-util.sh",
+                "type": 302
+            }
+        ]
     }
 }
