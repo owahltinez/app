@@ -1,0 +1,36 @@
+#!/bin/bash
+# Sets up Debian on a Google Pixelbook (eve): updates, EFI fallback, keyboard, audio, default boot.
+set -euo pipefail
+
+if [[ $EUID -eq 0 ]]; then
+  echo "Run this as your normal user, not root." >&2
+  exit 1
+fi
+
+sudo apt-get update
+sudo apt-get full-upgrade -y
+sudo apt-get install -y git keyd vboot-utils
+
+# Keep a copy of GRUB at the fallback EFI path so new firmware finds it.
+echo 'grub-efi-amd64 grub2/force_efi_extra_removable boolean true' | sudo debconf-set-selections
+sudo dpkg-reconfigure -f noninteractive grub-efi-amd64
+
+work=$(mktemp -d)
+cd "$work"
+
+git clone --depth 1 https://github.com/WeirdTreeThing/cros-keyboard-map
+# Debian ships keyd as keyd.rvaiya, so decline the installer's offer to compile it.
+(cd cros-keyboard-map && echo n | ./install.sh)
+
+git clone --depth 1 https://github.com/WeirdTreeThing/chromebook-linux-audio
+# Menu option 1 installs the audio fixes.
+(cd chromebook-linux-audio && echo 1 | ./setup-audio)
+
+# Boot Debian without Ctrl+L; older firmware calls the option "legacy".
+if sudo crossystem dev_default_boot=altfw || sudo crossystem dev_default_boot=legacy; then
+  echo "Default boot: $(sudo crossystem dev_default_boot)"
+else
+  echo "Could not change the default boot; keep pressing Ctrl+L." >&2
+fi
+
+echo "All done. Reboot to finish."
