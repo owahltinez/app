@@ -10,14 +10,17 @@ fi
 # Debian's crossystem expects ChromeOS's sysfs layout, so recreate it in a private mount namespace.
 if [[ -z ${EVE_NS:-} ]]; then
   modprobe nvram
-  dev=$(ls -d /sys/bus/platform/devices/GGL0001*)
-  EVE_NS=1 VBNV0=$(cat "$dev/VBNV.0") VBNV1=$(cat "$dev/VBNV.1") exec unshare -m "$BASH" "$0"
+  acpi=$(mktemp -d)
+  for f in /sys/bus/platform/devices/GGL0001*/*; do
+    [[ -f $f ]] && cat "$f" > "$acpi/${f##*/}" 2>/dev/null || true
+  done
+  EVE_NS=1 EVE_ACPI=$acpi exec unshare -m "$BASH" "$0"
 fi
 
 mount -t tmpfs none /sys/devices/platform
 mkdir /sys/devices/platform/chromeos_acpi
-echo "$VBNV0" > /sys/devices/platform/chromeos_acpi/VBNV.0
-echo "$VBNV1" > /sys/devices/platform/chromeos_acpi/VBNV.1
+cp "$EVE_ACPI"/* /sys/devices/platform/chromeos_acpi/
+echo "Firmware files:" /sys/devices/platform/chromeos_acpi/*
 
 # A valid read of the Ctrl+L flag proves the offset is right before anything is written.
 altfw=$(crossystem dev_boot_altfw || true)
