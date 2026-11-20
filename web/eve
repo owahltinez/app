@@ -1,0 +1,31 @@
+#!/bin/bash
+# Makes a developer-mode Pixelbook (eve) boot the RW_LEGACY payload without Ctrl+L.
+set -euo pipefail
+
+if [[ $EUID -ne 0 ]]; then
+  echo "Run with sudo." >&2
+  exit 1
+fi
+
+# Debian's crossystem expects ChromeOS's sysfs layout, so recreate it in a private mount namespace.
+if [[ -z ${EVE_NS:-} ]]; then
+  modprobe nvram
+  dev=$(ls -d /sys/bus/platform/devices/GGL0001*)
+  EVE_NS=1 VBNV0=$(cat "$dev/VBNV.0") VBNV1=$(cat "$dev/VBNV.1") exec unshare -m "$BASH" "$0"
+fi
+
+mount -t tmpfs none /sys/devices/platform
+mkdir /sys/devices/platform/chromeos_acpi
+echo "$VBNV0" > /sys/devices/platform/chromeos_acpi/VBNV.0
+echo "$VBNV1" > /sys/devices/platform/chromeos_acpi/VBNV.1
+
+# A valid read of the Ctrl+L flag proves the offset is right before anything is written.
+altfw=$(crossystem dev_boot_altfw || true)
+echo "dev_boot_altfw=$altfw dev_default_boot=$(crossystem dev_default_boot || true)"
+if [[ $altfw != 1 ]]; then
+  echo "Unexpected settings; nothing changed." >&2
+  exit 1
+fi
+
+crossystem dev_default_boot=altfw
+echo "dev_default_boot=$(crossystem dev_default_boot)"
